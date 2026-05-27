@@ -5,3 +5,4 @@ matplotlib
 pillow
 pandas
 numpy
+opencv-python-headless

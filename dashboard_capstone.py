@@ -146,10 +146,6 @@ if halaman == "📋 Overview & Data Dictionary":
     col3.metric("Test Data",  sum(data_test_before.values()))
     col4.metric("Total Gambar", sum(data_train_after.values()) + sum(data_test_before.values()))
 
-    st.write("BASE_PATH:", BASE_PATH)
-    st.write("Isi BASE_PATH:", os.listdir(BASE_PATH))
-    st.write("Isi train:", os.listdir(os.path.join(BASE_PATH, "train")))
-
     # sumber data yang digunakan
     with st.expander("📁 Sumber Dataset"):
         st.markdown("""

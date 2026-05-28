@@ -266,6 +266,18 @@ elif halaman == "📊 Explore & Explain Data":
     fig_group.update_layout(yaxis_title="Jumlah Gambar", legend_title="Split")
     st.plotly_chart(fig_group, use_container_width=True, key="bar_train_test")
 
+    # Insight kenapa rasio 80:20
+    st.info("""
+    **📊 Mengapa rasio Train:Test = 80:20?**
+
+    Dataset dibagi dengan rasio **80% train dan 20% test** berdasarkan praktik umum dalam machine learning:
+
+    - 🏋️ **80% Train** — Digunakan untuk melatih model agar dapat mengenali pola penyakit pada daun padi.
+    - 🧪 **20% Test** — Digunakan untuk mengevaluasi performa model pada data yang **belum pernah dilihat** sebelumnya.
+
+    Rasio ini dipilih karena dataset berukuran sedang (~10.000 gambar), sehingga 20% test sudah cukup representatif untuk mengukur generalisasi model.
+    """)
+
     st.divider()
 
     # ── SECTION 3: BEFORE vs AFTER AUGMENTASI ──
@@ -307,18 +319,6 @@ elif halaman == "📊 Explore & Explain Data":
     st.plotly_chart(fig_aug, use_container_width=True, key="bar_augmentasi")
 
     #st.plotly_chart(fig_group, use_container_width=True)
-
-    # Insight kenapa rasio 80:20
-    st.info("""
-    **📊 Mengapa rasio Train:Test = 80:20?**
-
-    Dataset dibagi dengan rasio **80% train dan 20% test** berdasarkan praktik umum dalam machine learning:
-
-    - 🏋️ **80% Train** — Digunakan untuk melatih model agar dapat mengenali pola penyakit pada daun padi.
-    - 🧪 **20% Test** — Digunakan untuk mengevaluasi performa model pada data yang **belum pernah dilihat** sebelumnya.
-
-    Rasio ini dipilih karena dataset berukuran sedang (~10.000 gambar), sehingga 20% test sudah cukup representatif untuk mengukur generalisasi model.
-    """)
 
     # Tabel ringkasan
     df_delta = pd.DataFrame({

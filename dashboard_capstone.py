@@ -17,7 +17,7 @@ import cv2
 @st.cache_resource
 def download_dataset():
     import gdown
-    ZIP_ID    = "1Jri1GjlzKFqqFl9BasDS4YSv20tCw99T"
+    ZIP_ID    = "1RsW4hC-pI67eMPFnVKX6wFTbtQn7TjAE"
     ZIP_PATH  = "dataset.zip"
     EXTRACT_TO = "dataset_rice"
 
@@ -39,8 +39,8 @@ with st.spinner("⏳ Memuat dataset..."):
 # ─────────────────────────────────────────────
 # KONFIGURASI KELAS
 # ─────────────────────────────────────────────
-kelas_folder = ["Blast", "BrownSpot", "Healthy", "Tungro", "Unknown"]
-kelas_label  = ["Blast", "Brown Spot", "Healthy", "Tungro", "Unknown"]
+kelas_folder = ["Blast", "BrownSpot", "Healthy", "Tungro"]
+kelas_label  = ["Blast", "Brown Spot", "Healthy", "Tungro"]
 folder_to_label = dict(zip(kelas_folder, kelas_label))
 label_to_folder = dict(zip(kelas_label, kelas_folder))
 WARNA_KELAS = {
@@ -48,7 +48,6 @@ WARNA_KELAS = {
     "Brown Spot": "#8B4513",
     "Healthy":    "#4CAF50",
     "Tungro":     "#FFC107",
-    "Unknown": "#9E9E9E"
 }
 warna_kelas = [WARNA_KELAS[l] for l in kelas_label]
 
@@ -58,14 +57,12 @@ data_train_before = {
     "Brown Spot": 1714,
     "Healthy":    1804,
     "Tungro":     1783,
-    "Unknown":    2146
 }
 data_test_before = {
     "Blast":      390,
     "Brown Spot": 429,
     "Healthy":    452,
     "Tungro":     446,
-    "Unknown":    537
 }
 # Data train setelah augmentasi
 data_train_after = {
@@ -73,7 +70,6 @@ data_train_after = {
     "Brown Spot": 2000,
     "Healthy":    2000,
     "Tungro":     2000,
-    "Unknown":    2146
 }
 data_test_after = data_test_before  
 
@@ -156,11 +152,7 @@ if halaman == "📋 Overview & Data Dictionary":
         | 3 | Zambali Rice Dataset (Public V1) | [Kaggle](https://www.kaggle.com/datasets/gettingintoml/zambali-rice-dataset-v3-1) | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
         | 4 | Rice Disease Dataset | [Kaggle](https://www.kaggle.com/datasets/anshulm257/rice-disease-dataset) | Unknown |
         | 5 | Rice Leaf Disease Detection Dataset | [Kaggle](https://www.kaggle.com/datasets/sham69/rice-leaf-disease-detection-dataset) | [MIT](https://www.mit.edu/~amini/LICENSE.md)
-        | 6 | DatasetOfLeafDiseasesAndPestsOfAgriculturalPlants | [Kaggle](https://www.kaggle.com/datasets/dellcat/datasetofleafdiseasesandpestsofagriculturalplants) | [Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/)
-        | 7 | image captioning dataset, random images | [Kaggle](https://www.kaggle.com/datasets/shamsaddin97/image-captioning-dataset-random-images) | Unknown | 
-        | 8 | FIRE Dataset | [Kaggle](https://www.kaggle.com/datasets/phylake1337/fire-dataset) | [CC0: Public Domain](https://creativecommons.org/publicdomain/zero/1.0/) | 
-        | 9 | Vehicle dataset - Images & Segmentation | [Kaggle](https://www.kaggle.com/datasets/trainingdatapro/car-masks) | [Attribution-NonCommercial-NoDerivatives 4.0 International](https://creativecommons.org/licenses/by-nc-nd/4.0/)
-        | 10 | PlantVillage Dataset | [Kaggle](https://www.kaggle.com/datasets/emmarex/plantdisease) | Unknown |           
+        | 6 | DatasetOfLeafDiseasesAndPestsOfAgriculturalPlants | [Kaggle](https://www.kaggle.com/datasets/dellcat/datasetofleafdiseasesandpestsofagriculturalplants) | [Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/)         
                     """)
 
     st.divider()
@@ -176,13 +168,13 @@ if halaman == "📋 Overview & Data Dictionary":
             "Tinggi gambar dalam piksel (setelah resize)",
             "Mode warna gambar (RGB)"
         ],
-        "Spesifikasi": ["JPG", "Blast | Brown Spot | Tungro | Healthy | Unknown", "Train | Test", "224", "224", "RGB"]
+        "Spesifikasi": ["JPG", "Blast | Brown Spot | Tungro | Healthy", "Train | Test", "224", "224", "RGB"]
     }
     st.dataframe(pd.DataFrame(dict_data), use_container_width=True)
 
     st.divider()
     st.subheader("🍂 Penjelasan Kelas Penyakit pada Daun Padi")
-    col1, col2, col3, col4, col5 = st.columns(5)
+    col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.markdown("**🟤 Brown Spot**")
         st.write("Bercak coklat pada daun akibat jamur Helminthosporium oryzae. Menyebabkan biji padi tidak terisi penuh.")
@@ -195,9 +187,6 @@ if halaman == "📋 Overview & Data Dictionary":
     with col4:
         st.markdown("**🟢 Healthy**")
         st.write("Daun padi dalam kondisi sehat, tidak menunjukkan gejala penyakit apapun.")
-    with col5:
-        st.markdown("**⚫ Unknown**")
-        st.write("Kondisi daun yang tidak termasuk 4 kelas yang dikenali model. Muncul ketika tingkat kepercayaan prediksi di bawah threshold yang ditentukan.")
 
 # ─────────────────────────────────────────────
 # Halaman 2: VISUALISASI EDA
@@ -214,20 +203,18 @@ elif halaman == "📊 Explore & Explain Data":
         "Brown Spot": 3293,
         "Healthy":    2597,
         "Tungro":     2352,
-        "Unknown":    2683
     }
     total_semua = sum(data_total.values())
  
-    warna_kelas = ["#ef5350", "#ff7043", "#66bb6a", "#ffa726", "#9E9E9E"]
+    warna_kelas = ["#ef5350", "#ff7043", "#66bb6a", "#ffa726"]
  
     # Metric row
-    mc1, mc2, mc3, mc4, mc5, mc6 = st.columns(6)
+    mc1, mc2, mc3, mc4, mc5 = st.columns(5)
     mc1.metric("Total Dataset", f"{total_semua:,}")
     mc2.metric("Blast",      f"{data_total['Blast']:,}")
     mc3.metric("Brown Spot", f"{data_total['Brown Spot']:,}")
     mc4.metric("Healthy",    f"{data_total['Healthy']:,}")
     mc5.metric("Tungro",     f"{data_total['Tungro']:,}")
-    mc6.metric("Unknown",     f"{data_total['Unknown']:,}")
 
     
     col_donut, col_spacer = st.columns([1, 1])
@@ -252,7 +239,6 @@ elif halaman == "📊 Explore & Explain Data":
         st.info("""
         **🔍 Ringkasan Distribusi Dataset:**
         Dataset ini mencakup **4 kelas** kondisi daun padi yang dikumpulkan dari berbagai kondisi lapangan.
-        Kelas **Unknown** ditambahkan sebagai kategori tambahan untuk menangani gambar yang tidak teridentifikasi oleh model.
 
         * 📈 **Brown Spot** menjadi kelas terbanyak dengan **3.293** gambar.
         * 📉 **Tungro** menjadi kelas paling sedikit dengan **2.352** gambar.
@@ -349,8 +335,6 @@ elif halaman == "📊 Explore & Explain Data":
 
         **Setelah augmentasi**, semua kelas train menjadi **2.000 gambar** (balanced).
         Teknik augmentasi yang digunakan: rotasi, flip horizontal/vertikal, brightness & contrast adjustment, dan blur.
-
-        Kelas **Unknown** tidak diaugmentasi karena jumlah datanya sudah mencukupi (**2.160+ gambar**).
 
         Data test **tidak diaugmentasi** agar tetap merepresentasikan kondisi nyata di lapangan.
         """)
